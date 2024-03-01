@@ -16,11 +16,8 @@ class CardWidget extends StatelessWidget {
   final TextEditingController titleController;
   final TextEditingController contentController;
 
-  final double height;
   const CardWidget(
       {super.key,
-      required this.height,
-      // required this.controllers,
       required this.titleController,
       required this.contentController});
 
@@ -45,7 +42,7 @@ class CardWidget extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Container(
-                    height: height,
+                    height: 60,
                     width: MediaQuery.sizeOf(context).width,
                     decoration: BoxDecoration(
                         border: Border.all(
