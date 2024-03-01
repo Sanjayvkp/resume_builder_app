@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:resume_builder_app/model/resume_section.dart';
+import 'package:resume_builder_app/view/pages/view_resume_page.dart';
 import 'package:resume_builder_app/view/widgets/card_widget.dart';
 
 /// Model class to handle the text editing controller
@@ -31,7 +33,22 @@ class AddResumePage extends HookConsumerWidget {
     final sectionsList = useState<List<TextEditingControllers>>([]);
 
     /// View the resume
-    void viewResume() {}
+    void viewResume() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ViewResumePage(
+            sections: [
+              for (final sectionsData in sectionsList.value)
+                ResumeSection(
+                  title: sectionsData.titleController.text,
+                  content: sectionsData.contentController.text,
+                ),
+            ],
+          ),
+        ),
+      );
+    }
 
     /// Add a new section to the resume
     void addNewSection() {
@@ -88,11 +105,14 @@ class AddResumePage extends HookConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 16,
+        padding: const EdgeInsets.only(
+          top: 16,
+          left: 16,
+          right: 16,
+          bottom: 48,
         ),
         child: ListView.separated(
+          clipBehavior: Clip.none,
           separatorBuilder: (context, index) => const SizedBox(height: 16),
           itemBuilder: (context, index) {
             final controllers = sectionsList.value[index];
