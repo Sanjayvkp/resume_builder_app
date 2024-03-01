@@ -3,9 +3,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:resume_builder_app/controller/resume_provider.dart';
 import 'package:resume_builder_app/view/pages/add_resume_page.dart';
 import 'package:resume_builder_app/view/pages/view_resume_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+  final ValueNotifier<bool> themeNoitfier;
+  const HomePage({
+    super.key,
+    required this.themeNoitfier,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,9 +34,22 @@ class HomePage extends ConsumerWidget {
           ));
     }
 
+    /// Change theme
+    void changeTheme() async {
+      themeNoitfier.value = !themeNoitfier.value;
+      (await SharedPreferences.getInstance())
+          .setBool('theme', themeNoitfier.value);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resume App'),
+        actions: [
+          IconButton(
+              onPressed: changeTheme,
+              icon: Icon(
+                  themeNoitfier.value ? Icons.dark_mode : Icons.light_mode))
+        ],
       ),
       body: ListView.separated(
         itemBuilder: (context, index) {

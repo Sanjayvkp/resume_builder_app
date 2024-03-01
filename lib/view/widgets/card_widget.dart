@@ -26,11 +26,14 @@ class CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(blurRadius: 10, color: Color(0x709E9E9E)),
-          ],
-          borderRadius: BorderRadius.circular(8)),
+        color: Theme.of(context).colorScheme.background,
+        boxShadow: [
+          BoxShadow(
+              blurRadius: 10,
+              color: Theme.of(context).shadowColor.withAlpha(60)),
+        ],
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
