@@ -14,11 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+ResumeModel _$ResumeModelFromJson(Map<String, dynamic> json) {
+  return _ResumeModel.fromJson(json);
+}
+
 /// @nodoc
 mixin _$ResumeModel {
   List<ResumeSection> get sections => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ResumeModelCopyWith<ResumeModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -101,11 +106,14 @@ class __$$ResumeModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ResumeModelImpl implements _ResumeModel {
   _$ResumeModelImpl(
       {required final List<ResumeSection> sections, required this.name})
       : _sections = sections;
+
+  factory _$ResumeModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ResumeModelImplFromJson(json);
 
   final List<ResumeSection> _sections;
   @override
@@ -132,6 +140,7 @@ class _$ResumeModelImpl implements _ResumeModel {
             (identical(other.name, name) || other.name == name));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_sections), name);
@@ -141,12 +150,22 @@ class _$ResumeModelImpl implements _ResumeModel {
   @pragma('vm:prefer-inline')
   _$$ResumeModelImplCopyWith<_$ResumeModelImpl> get copyWith =>
       __$$ResumeModelImplCopyWithImpl<_$ResumeModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ResumeModelImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ResumeModel implements ResumeModel {
   factory _ResumeModel(
       {required final List<ResumeSection> sections,
       required final String name}) = _$ResumeModelImpl;
+
+  factory _ResumeModel.fromJson(Map<String, dynamic> json) =
+      _$ResumeModelImpl.fromJson;
 
   @override
   List<ResumeSection> get sections;

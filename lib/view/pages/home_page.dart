@@ -48,7 +48,7 @@ class HomePage extends ConsumerWidget {
           IconButton(
               onPressed: changeTheme,
               icon: Icon(
-                  themeNoitfier.value ? Icons.dark_mode : Icons.light_mode))
+                  themeNoitfier.value ? Icons.light_mode : Icons.dark_mode))
         ],
       ),
       body: ListView.separated(

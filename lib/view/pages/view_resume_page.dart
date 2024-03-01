@@ -42,9 +42,11 @@ class ViewResumePage extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(blurRadius: 10, color: Color(0x709E9E9E)),
+              color: Theme.of(context).colorScheme.background,
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 10,
+                    color: Theme.of(context).shadowColor.withAlpha(60)),
               ],
               borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
