@@ -1,22 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:resume_builder_app/model/resume_section.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:resume_builder_app/controller/resume_provider.dart';
 
-class ViewResumePage extends StatelessWidget {
-  /// Sections that are part of the resume
-  final List<ResumeSection> sections;
+class ViewResumePage extends ConsumerWidget {
+  /// The index of the resume to view
+  final int index;
 
   const ViewResumePage({
     super.key,
-    required this.sections,
+    required this.index,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final resume = ref.watch(resumeProvider)[index];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('View Resume'),
+        title: Text(resume.name),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+        ],
       ),
-      body: Container(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+          itemCount: resume.sections.length,
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(blurRadius: 10, color: Color(0x709E9E9E)),
+                  ],
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      resume.sections[index].title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(resume.sections[index].content),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
