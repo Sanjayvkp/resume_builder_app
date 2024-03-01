@@ -49,7 +49,7 @@ class AddResumePage extends HookConsumerWidget {
     );
 
     /// Save the resume
-    void saveResume() {
+    void saveResume(String title) {
       final sections = [
         for (final sectionsData in sectionsList.value)
           ResumeSection(
@@ -59,8 +59,48 @@ class AddResumePage extends HookConsumerWidget {
       ];
 
       ref.read(resumeProvider.notifier).addResume(
-            ResumeModel(sections: sections, name: 'SAMPLE'),
+            ResumeModel(sections: sections, name: title),
           );
+
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
+
+    /// Show the alert to input the title for the resume
+    void showAlertDialog() {
+      final titleController = TextEditingController();
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Save Resume'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Please enter a title to save the resume'),
+              TextField(
+                decoration: const InputDecoration(hintText: 'Title'),
+                controller: titleController,
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                final title = titleController.text;
+                saveResume(title);
+              },
+              child: const Text('Save'),
+            ),
+            TextButton(
+              onPressed: () {
+                titleController.dispose();
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            )
+          ],
+        ),
+      );
     }
 
     /// Add a new section to the resume
@@ -113,7 +153,7 @@ class AddResumePage extends HookConsumerWidget {
         title: const Text('Resume'),
         actions: [
           IconButton(
-            onPressed: () => saveResume(),
+            onPressed: () => showAlertDialog(),
             icon: const Icon(
               Icons.done,
             ),
