@@ -17,6 +17,14 @@ final class TextEditingControllers {
 class AddResumePage extends HookConsumerWidget {
   const AddResumePage({super.key});
 
+  /// Swap items in a list
+  List<T> swapListItems<T>(int indexA, int indexB, List<T> originalArray) {
+    final temp = originalArray[indexA];
+    originalArray[indexA] = originalArray[indexB];
+    originalArray[indexB] = temp;
+    return originalArray;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// State that store the sections of the resume
@@ -51,12 +59,20 @@ class AddResumePage extends HookConsumerWidget {
       }
 
       /// Swap the items in the list
-      final updatedSections = [...sectionsList.value];
-      final temp = updatedSections[index];
-      updatedSections[index] = updatedSections[index - 1];
-      updatedSections[index - 1] = temp;
+      sectionsList.value = swapListItems<TextEditingControllers>(
+          index, index - 1, [...sectionsList.value]);
+    }
 
-      sectionsList.value = updatedSections;
+    /// Move the section down
+    void moveSectionDown(int index) {
+      if (index == sectionsList.value.length - 1) {
+        /// Section is already at the bottom of the list
+        return;
+      }
+
+      /// Swap the items in the list
+      sectionsList.value = swapListItems<TextEditingControllers>(
+          index, index + 1, [...sectionsList.value]);
     }
 
     return Scaffold(
@@ -85,7 +101,8 @@ class AddResumePage extends HookConsumerWidget {
               contentController: controllers.contentController,
               titleController: controllers.titleController,
               onDeletePressed: () => removeSection(index),
-              onUpPressed: ()=> moveSectionUp(index),
+              onUpPressed: () => moveSectionUp(index),
+              onDownPressed: () => moveSectionDown(index),
             );
           },
           itemCount: sectionsList.value.length,
