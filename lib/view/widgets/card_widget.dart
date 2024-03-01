@@ -4,10 +4,15 @@ class CardWidget extends StatelessWidget {
   final TextEditingController titleController;
   final TextEditingController contentController;
 
-  const CardWidget(
-      {super.key,
-      required this.titleController,
-      required this.contentController});
+  /// Callback to execute when the delete button is clicked
+  final VoidCallback onDeletePressed;
+
+  const CardWidget({
+    super.key,
+    required this.titleController,
+    required this.contentController,
+    required this.onDeletePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +79,7 @@ class CardWidget extends StatelessWidget {
                       icon: const Icon(Icons.arrow_downward_outlined)),
                   const Expanded(child: SizedBox()),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => onDeletePressed(),
                     icon: const Icon(Icons.delete),
                   )
                 ],

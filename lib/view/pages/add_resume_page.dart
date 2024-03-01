@@ -36,6 +36,13 @@ class AddResumePage extends HookConsumerWidget {
       ];
     }
 
+    /// Remove a section from the resume with the given index
+    void removeSection(int index) {
+      sectionsList.value = [
+        ...sectionsList.value,
+      ]..removeAt(index);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resume'),
@@ -61,6 +68,7 @@ class AddResumePage extends HookConsumerWidget {
             return CardWidget(
               contentController: controllers.contentController,
               titleController: controllers.titleController,
+              onDeletePressed: () => removeSection(index),
             );
           },
           itemCount: sectionsList.value.length,
