@@ -13,14 +13,19 @@ class ViewResumePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final resume = ref.watch(resumeProvider)[index];
+    final resume = ref.read(resumeProvider)[index];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(resume.name),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+                ref.read(resumeProvider.notifier).removeResume(index);
+              },
+              icon: const Icon(Icons.delete)),
         ],
       ),
       body: Padding(

@@ -14,4 +14,9 @@ class Resume extends _$Resume {
   void addResume(ResumeModel resume) {
     state = [...state, resume];
   }
+
+  /// remove the resume
+  void removeResume(int index) {
+    state = [...state]..removeAt(index);
+  }
 }
