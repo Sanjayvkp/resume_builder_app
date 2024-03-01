@@ -7,11 +7,15 @@ class CardWidget extends StatelessWidget {
   /// Callback to execute when the delete button is clicked
   final VoidCallback onDeletePressed;
 
+  /// Callback to execute when the up arrow clicked
+  final VoidCallback onUpPressed;
+
   const CardWidget({
     super.key,
     required this.titleController,
     required this.contentController,
     required this.onDeletePressed,
+    required this.onUpPressed,
   });
 
   @override
@@ -73,7 +77,8 @@ class CardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.arrow_upward)),
+                      onPressed: () => onUpPressed(),
+                      icon: const Icon(Icons.arrow_upward)),
                   IconButton(
                       onPressed: () {},
                       icon: const Icon(Icons.arrow_downward_outlined)),

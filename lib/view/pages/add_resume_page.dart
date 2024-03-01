@@ -43,6 +43,22 @@ class AddResumePage extends HookConsumerWidget {
       ]..removeAt(index);
     }
 
+    /// Move the section above
+    void moveSectionUp(int index) {
+      if (index == 0) {
+        /// Section is already on top
+        return;
+      }
+
+      /// Swap the items in the list
+      final updatedSections = [...sectionsList.value];
+      final temp = updatedSections[index];
+      updatedSections[index] = updatedSections[index - 1];
+      updatedSections[index - 1] = temp;
+
+      sectionsList.value = updatedSections;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resume'),
@@ -69,6 +85,7 @@ class AddResumePage extends HookConsumerWidget {
               contentController: controllers.contentController,
               titleController: controllers.titleController,
               onDeletePressed: () => removeSection(index),
+              onUpPressed: ()=> moveSectionUp(index),
             );
           },
           itemCount: sectionsList.value.length,
