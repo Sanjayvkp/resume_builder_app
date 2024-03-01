@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CardWidget extends StatelessWidget {
   final double height;
@@ -28,7 +27,7 @@ class CardWidget extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black)),
               child: TextField(
                 controller: TextEditingController(),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
                     hintText: 'Enter title here...'),
@@ -48,7 +47,7 @@ class CardWidget extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black)),
               child: TextField(
                 controller: TextEditingController(),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
                     hintText: 'Enter content here...'),

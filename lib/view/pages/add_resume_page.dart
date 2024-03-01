@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:resume_builder_app/view/widgets/card_widget.dart';
 
-class AddResumePage extends StatelessWidget {
+/// Model class to handle the text editing controller
+final class TextEditingControllers {
+  final TextEditingController titleController;
+  final TextEditingController contentController;
+
+  TextEditingControllers({
+    required this.contentController,
+    required this.titleController,
+  });
+}
+
+class AddResumePage extends HookConsumerWidget {
   const AddResumePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resume'),
