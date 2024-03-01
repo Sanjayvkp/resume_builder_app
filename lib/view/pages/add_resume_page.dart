@@ -17,10 +17,18 @@ class AddResumePage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: CardWidget(height: 60),
             )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.small(
+        backgroundColor: Colors.black,
+        onPressed: () {},
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
         ),
       ),
     );

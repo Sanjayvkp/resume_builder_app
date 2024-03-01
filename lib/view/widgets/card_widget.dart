@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CardWidget extends StatelessWidget {
   final double height;
@@ -7,7 +9,9 @@ class CardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey.withOpacity(.20),
+      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(blurRadius: 2, color: Colors.black),
+      ]),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
@@ -22,7 +26,8 @@ class CardWidget extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.black)),
-              child: const TextField(
+              child: TextField(
+                controller: TextEditingController(),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
@@ -41,7 +46,8 @@ class CardWidget extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.black)),
-              child: const TextField(
+              child: TextField(
+                controller: TextEditingController(),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
