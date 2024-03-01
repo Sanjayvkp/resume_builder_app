@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:resume_builder_app/controller/resume_provider.dart';
+import 'package:resume_builder_app/model/resume.dart';
 import 'package:resume_builder_app/model/resume_section.dart';
-import 'package:resume_builder_app/view/pages/view_resume_page.dart';
 import 'package:resume_builder_app/view/widgets/card_widget.dart';
 
 /// Model class to handle the text editing controller
@@ -30,24 +31,36 @@ class AddResumePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// State that store the sections of the resume
-    final sectionsList = useState<List<TextEditingControllers>>([]);
+    final sectionsList = useState<List<TextEditingControllers>>([
+      TextEditingControllers(
+        contentController: TextEditingController(),
+        titleController: TextEditingController(),
+      )
+    ]);
 
-    /// View the resume
-    void viewResume() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ViewResumePage(
-            sections: [
-              for (final sectionsData in sectionsList.value)
-                ResumeSection(
-                  title: sectionsData.titleController.text,
-                  content: sectionsData.contentController.text,
-                ),
-            ],
+    /// Dispose all controllers when the user leave the page
+    useEffect(
+      () => () {
+        for (final controllers in sectionsList.value) {
+          controllers.contentController.dispose();
+          controllers.titleController.dispose();
+        }
+      },
+    );
+
+    /// Save the resume
+    void saveResume() {
+      final sections = [
+        for (final sectionsData in sectionsList.value)
+          ResumeSection(
+            title: sectionsData.titleController.text,
+            content: sectionsData.contentController.text,
           ),
-        ),
-      );
+      ];
+
+      ref.read(resumeProvider.notifier).addResume(
+            ResumeModel(sections: sections, name: 'SAMPLE'),
+          );
     }
 
     /// Add a new section to the resume
@@ -63,6 +76,9 @@ class AddResumePage extends HookConsumerWidget {
 
     /// Remove a section from the resume with the given index
     void removeSection(int index) {
+      sectionsList.value[index].contentController.dispose();
+      sectionsList.value[index].titleController.dispose();
+
       sectionsList.value = [
         ...sectionsList.value,
       ]..removeAt(index);
@@ -97,9 +113,9 @@ class AddResumePage extends HookConsumerWidget {
         title: const Text('Resume'),
         actions: [
           IconButton(
-            onPressed: () => viewResume(),
+            onPressed: () => saveResume(),
             icon: const Icon(
-              Icons.remove_red_eye,
+              Icons.done,
             ),
           )
         ],

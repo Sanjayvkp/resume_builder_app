@@ -9,4 +9,9 @@ class Resume extends _$Resume {
   List<ResumeModel> build() {
     return [];
   }
+
+  /// Add new resume
+  void addResume(ResumeModel resume) {
+    state = [...state, resume];
+  }
 }
