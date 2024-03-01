@@ -15,6 +15,14 @@ class Resume extends _$Resume {
     state = [...state, resume];
   }
 
+  /// Edit resume
+  void editResume(ResumeModel resume, int index) {
+    final updatedResumeList = [...state];
+    updatedResumeList[index] = resume;
+
+    state = updatedResumeList;
+  }
+
   /// remove the resume
   void removeResume(int index) {
     state = [...state]..removeAt(index);

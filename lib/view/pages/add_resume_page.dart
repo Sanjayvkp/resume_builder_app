@@ -18,7 +18,13 @@ final class TextEditingControllers {
 }
 
 class AddResumePage extends HookConsumerWidget {
-  const AddResumePage({super.key});
+  /// The index of the resume to edit
+  final int? index;
+
+  const AddResumePage({
+    super.key,
+    this.index,
+  });
 
   /// Swap items in a list
   List<T> swapListItems<T>(int indexA, int indexB, List<T> originalArray) {
@@ -30,6 +36,9 @@ class AddResumePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// Indicate if the user clicked on the edit button or not
+    final isEdit = index != null;
+
     /// State that store the sections of the resume
     final sectionsList = useState<List<TextEditingControllers>>([
       TextEditingControllers(
@@ -46,6 +55,7 @@ class AddResumePage extends HookConsumerWidget {
           controllers.titleController.dispose();
         }
       },
+      [],
     );
 
     /// Save the resume
@@ -58,9 +68,16 @@ class AddResumePage extends HookConsumerWidget {
           ),
       ];
 
-      ref.read(resumeProvider.notifier).addResume(
-            ResumeModel(sections: sections, name: title),
-          );
+      if (isEdit) {
+        ref.read(resumeProvider.notifier).editResume(
+              ResumeModel(sections: sections, name: title),
+              index!,
+            );
+      } else {
+        ref.read(resumeProvider.notifier).addResume(
+              ResumeModel(sections: sections, name: title),
+            );
+      }
 
       Navigator.popUntil(context, (route) => route.isFirst);
     }
@@ -68,6 +85,11 @@ class AddResumePage extends HookConsumerWidget {
     /// Show the alert to input the title for the resume
     void showAlertDialog() {
       final titleController = TextEditingController();
+
+      if (isEdit) {
+        final resume = ref.read(resumeProvider)[index!];
+        titleController.text = resume.name;
+      }
 
       showDialog(
         context: context,
@@ -148,9 +170,28 @@ class AddResumePage extends HookConsumerWidget {
           index, index + 1, [...sectionsList.value]);
     }
 
+    /// Fill the already existing sections to the state
+    useEffect(() {
+      if (isEdit) {
+        final resume = ref.read(resumeProvider)[index!];
+        final initialSections = <TextEditingControllers>[];
+
+        for (final section in resume.sections) {
+          initialSections.add(TextEditingControllers(
+              contentController: TextEditingController()
+                ..text = section.content,
+              titleController: TextEditingController()..text = section.title));
+        }
+        Future.delayed(
+            Duration.zero, () => sectionsList.value = initialSections);
+      }
+
+      return null;
+    }, []);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resume'),
+        title: Text(isEdit ? 'Edit Resume' : 'Add Resume'),
         actions: [
           IconButton(
             onPressed: () => showAlertDialog(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:resume_builder_app/controller/resume_provider.dart';
+import 'package:resume_builder_app/view/pages/add_resume_page.dart';
 
 class ViewResumePage extends ConsumerWidget {
   /// The index of the resume to view
@@ -19,7 +20,16 @@ class ViewResumePage extends ConsumerWidget {
       appBar: AppBar(
         title: Text(resume.name),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddResumePage(index: index),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit)),
           IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -30,33 +40,32 @@ class ViewResumePage extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: ListView.builder(
-          itemCount: resume.sections.length,
-          itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(blurRadius: 10, color: Color(0x709E9E9E)),
-                  ],
-                  borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      resume.sections[index].title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(resume.sections[index].content),
-                  ],
-                ),
-              ),
-            );
-          },
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(blurRadius: 10, color: Color(0x709E9E9E)),
+              ],
+              borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: ListView.separated(
+            shrinkWrap: true,
+            itemCount: resume.sections.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 24),
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    resume.sections[index].title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(resume.sections[index].content),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
