@@ -48,22 +48,23 @@ class AddResumePage extends HookConsumerWidget {
           )
         ],
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          final controllers = sectionsList.value[index];
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 16,
+        ),
+        child: ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            final controllers = sectionsList.value[index];
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: CardWidget(
+            return CardWidget(
               contentController: controllers.contentController,
               titleController: controllers.titleController,
-            ),
-          );
-        },
-        itemCount: sectionsList.value.length,
+            );
+          },
+          itemCount: sectionsList.value.length,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => addNewSection(),
