@@ -11,7 +11,12 @@ class CardWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Text(
+              'Title',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             Container(
               height: height,
               width: MediaQuery.sizeOf(context).width,
@@ -19,13 +24,17 @@ class CardWidget extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black)),
               child: const TextField(
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
-                    labelText: 'Title',
                     hintText: 'Enter title here...'),
               ),
             ),
             const SizedBox(
               height: 10,
+            ),
+            const Text(
+              'Content',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             Container(
               height: 150,
@@ -34,6 +43,7 @@ class CardWidget extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black)),
               child: const TextField(
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: InputBorder.none,
                     hintText: 'Enter content here...'),
               ),

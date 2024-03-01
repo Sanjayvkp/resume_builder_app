@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resume_builder_app/view/widgets/text_field_widget.dart';
+import 'package:resume_builder_app/view/widgets/card_widget.dart';
 
 class AddResumePage extends StatelessWidget {
   const AddResumePage({super.key});
