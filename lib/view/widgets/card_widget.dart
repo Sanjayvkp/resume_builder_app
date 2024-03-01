@@ -1,12 +1,33 @@
-
 import 'package:flutter/material.dart';
 
+/// Model class to handle the text editing controller
+final class TextEditingControllers {
+  final TextEditingController titleController;
+  final TextEditingController contentController;
+
+  TextEditingControllers({
+    required this.contentController,
+    required this.titleController,
+  });
+}
+
 class CardWidget extends StatelessWidget {
+  final ValueNotifier<List<TextEditingControllers>> controllers;
   final double height;
-  const CardWidget({super.key, required this.height});
+  const CardWidget(
+      {super.key, required this.height, required this.controllers});
 
   @override
   Widget build(BuildContext context) {
+    void addNewTypeEntry() {
+      controllers.value = [
+        ...controllers.value,
+        TextEditingControllers(
+            contentController: TextEditingController(),
+            titleController: TextEditingController())
+      ];
+    }
+
     return Container(
       decoration: const BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(blurRadius: 2, color: Colors.black),
@@ -16,10 +37,11 @@ class CardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Title',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
+            for (var i = 0; i < controllers.value.length; i++)
+              const Text(
+                'Title',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
             Container(
               height: height,
               width: MediaQuery.sizeOf(context).width,
